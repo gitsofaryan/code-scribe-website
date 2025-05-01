@@ -5,8 +5,21 @@ import { Search } from 'lucide-react';
 import BlogPost from '../components/BlogPost';
 import CommentSection from '../components/CommentSection';
 
+// Define the blog post type
+interface BlogPostItem {
+  id: string;
+  title: string;
+  date: string;
+  isNew?: boolean;
+}
+
+// Define the type for our blogPosts object with proper index signature
+interface BlogPostsCollection {
+  [year: string]: BlogPostItem[];
+}
+
 // Sample blog data organized by year
-const blogPosts = {
+const blogPosts: BlogPostsCollection = {
   "2025": [
     {
       id: "echarts-react",
@@ -166,10 +179,10 @@ type Readonly<T> = {
   );
 
   // Filter posts based on search query
-  const getFilteredPosts = () => {
+  const getFilteredPosts = (): BlogPostsCollection => {
     if (!searchQuery.trim()) return blogPosts;
     
-    const filtered: Record<string, typeof blogPosts[string]> = {};
+    const filtered: BlogPostsCollection = {};
     
     Object.keys(blogPosts).forEach(year => {
       const matchingPosts = blogPosts[year].filter(post => 
