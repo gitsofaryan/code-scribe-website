@@ -18,7 +18,7 @@ const Notes: React.FC = () => {
           id: 'c1',
           author: 'ReflectiveReader',
           authorAvatar: 'https://github.com/identicons/app/reflective_app.png',
-          content: 'Really enjoyed your year-end thoughts. I've been following a similar path in my dev journey!',
+          content: "Really enjoyed your year-end thoughts. I've been following a similar path in my dev journey!",
           timestamp: '2025-03-15T10:30:00Z'
         }
       ]
