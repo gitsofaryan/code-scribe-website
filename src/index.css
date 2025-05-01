@@ -76,6 +76,7 @@
   }
   body {
     @apply bg-vscode-bg text-vscode-text antialiased;
+    font-family: 'Inter', sans-serif;
   }
   
   /* Code block styling */

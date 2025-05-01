@@ -1,6 +1,24 @@
 
 import React from 'react';
 import BlogPost from '../components/BlogPost';
+import CommentSection from '../components/CommentSection';
+
+const sampleComments = [
+  {
+    id: '1',
+    author: 'DevEnthusiast',
+    authorAvatar: 'https://github.com/identicons/app/oauth_app.png',
+    content: 'This is a fantastic overview of TypeScript! I especially appreciate the section on generics, which is often a confusing topic for beginners.',
+    timestamp: '2025-04-28T15:30:00Z',
+  },
+  {
+    id: '2',
+    author: 'TypeScriptFan',
+    authorAvatar: 'https://github.com/identicons/app/other_app.png',
+    content: 'Great article! I would love to see a follow-up on advanced TypeScript patterns like conditional types and mapped types.',
+    timestamp: '2025-04-29T10:15:00Z',
+  },
+];
 
 const BlogPage: React.FC = () => {
   const sampleBlogContent = (
@@ -81,12 +99,19 @@ type Readonly<T> = {
   );
 
   return (
-    <BlogPost
-      title="Understanding TypeScript: A Comprehensive Guide"
-      date="May 1, 2025"
-      content={sampleBlogContent}
-      tags={["TypeScript", "JavaScript", "Web Development", "Programming"]}
-    />
+    <>
+      <BlogPost
+        title="Understanding TypeScript: A Comprehensive Guide"
+        date="May 1, 2025"
+        content={sampleBlogContent}
+        tags={["TypeScript", "JavaScript", "Web Development", "Programming"]}
+      />
+      <CommentSection 
+        comments={sampleComments} 
+        postId="typescript-guide" 
+        postType="blog"
+      />
+    </>
   );
 };
 

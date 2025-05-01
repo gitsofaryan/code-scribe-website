@@ -18,8 +18,10 @@ const Layout: React.FC<LayoutProps> = ({ children, rightSidebar }) => {
       <Navbar />
       <div className="flex flex-1">
         <Sidebar />
-        <main className="flex-1 p-6 md:p-8 max-w-4xl mx-auto animate-fade-in">
-          {children}
+        <main className="flex-1 p-6 md:p-8 animate-fade-in">
+          <div className="max-w-4xl mx-auto">
+            {children}
+          </div>
         </main>
         {showRightSidebar && (
           <aside className="hidden lg:block w-64 p-6 border-l border-vscode-border">

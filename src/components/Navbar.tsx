@@ -1,7 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Book, FileText, Github, Mail } from 'lucide-react';
+import { Book, FileText, Github, Mail, MessageSquare, Edit } from 'lucide-react';
+import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from './ui/navigation-menu';
+import { cn } from '@/lib/utils';
 
 const Navbar: React.FC = () => {
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
@@ -43,6 +45,10 @@ const Navbar: React.FC = () => {
             <Link to="/projects" className="nav-link flex items-center space-x-1 text-vscode-text hover:text-white">
               <span className="text-lg">💻</span>
               <span>Projects</span>
+            </Link>
+            <Link to="/write" className="nav-link flex items-center space-x-1 text-vscode-text hover:text-white">
+              <Edit size={18} />
+              <span>Write</span>
             </Link>
             <Link to="/about" className="nav-link flex items-center space-x-1 text-vscode-text hover:text-white">
               <Mail size={18} />

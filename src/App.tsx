@@ -11,6 +11,7 @@ import Notes from "./pages/Notes";
 import Projects from "./pages/Projects";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
+import Write from "./pages/Write";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,7 @@ const App = () => (
           <Route path="/notes" element={<Layout children={<Notes />} />} />
           <Route path="/projects" element={<Layout children={<Projects />} />} />
           <Route path="/about" element={<Layout children={<About />} />} />
+          <Route path="/write" element={<Layout children={<Write />} />} />
           <Route path="*" element={<Layout children={<NotFound />} />} />
         </Routes>
       </BrowserRouter>
