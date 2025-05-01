@@ -1,3 +1,7 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -33,22 +37,6 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
@@ -79,14 +67,6 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -94,8 +74,77 @@
   * {
     @apply border-border;
   }
-
   body {
-    @apply bg-background text-foreground;
+    @apply bg-vscode-bg text-vscode-text antialiased;
+  }
+  
+  /* Code block styling */
+  pre {
+    @apply bg-[#1e1e1e] border border-vscode-border rounded-md p-4 my-4 overflow-x-auto text-sm font-code;
+  }
+  
+  code {
+    @apply font-mono text-vscode-string;
+  }
+  
+  /* Typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans font-semibold text-white;
+  }
+  
+  h1 {
+    @apply text-4xl mb-6 mt-8;
+  }
+  
+  h2 {
+    @apply text-3xl mb-4 mt-8;
+  }
+  
+  h3 {
+    @apply text-2xl mb-3 mt-6;
+  }
+  
+  h4 {
+    @apply text-xl mb-2 mt-5;
+  }
+  
+  p {
+    @apply mb-4 leading-relaxed;
+  }
+  
+  a {
+    @apply text-vscode-accent hover:text-opacity-80 transition-colors duration-200;
+  }
+  
+  /* Table of contents */
+  .toc-link {
+    @apply block py-1 hover:text-vscode-accent transition-colors duration-200;
+  }
+  
+  .toc-link.active {
+    @apply text-vscode-accent;
+  }
+  
+  /* Tags */
+  .tag {
+    @apply inline-block px-2 py-1 bg-vscode-highlight text-sm rounded mr-2 mb-2;
+  }
+  
+  /* Transition effects */
+  .page-transition {
+    @apply transition-all duration-300;
+  }
+  
+  /* Link hover effect */
+  .nav-link {
+    @apply relative;
+  }
+  
+  .nav-link::after {
+    @apply content-[''] absolute w-0 h-0.5 bg-vscode-accent left-0 -bottom-1 transition-all duration-300;
+  }
+  
+  .nav-link:hover::after {
+    @apply w-full;
   }
 }
