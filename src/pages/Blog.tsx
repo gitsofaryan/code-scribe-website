@@ -1,26 +1,93 @@
 
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Search } from 'lucide-react';
 import BlogPost from '../components/BlogPost';
 import CommentSection from '../components/CommentSection';
 
-const sampleComments = [
-  {
-    id: '1',
-    author: 'DevEnthusiast',
-    authorAvatar: 'https://github.com/identicons/app/oauth_app.png',
-    content: 'This is a fantastic overview of TypeScript! I especially appreciate the section on generics, which is often a confusing topic for beginners.',
-    timestamp: '2025-04-28T15:30:00Z',
-  },
-  {
-    id: '2',
-    author: 'TypeScriptFan',
-    authorAvatar: 'https://github.com/identicons/app/other_app.png',
-    content: 'Great article! I would love to see a follow-up on advanced TypeScript patterns like conditional types and mapped types.',
-    timestamp: '2025-04-29T10:15:00Z',
-  },
-];
+// Sample blog data organized by year
+const blogPosts = {
+  "2025": [
+    {
+      id: "echarts-react",
+      title: "Enabling Apache ECharts in React for Data Visualization",
+      date: "March 31",
+      isNew: true,
+    }
+  ],
+  "2024": [
+    {
+      id: "keyboard-shortcuts",
+      title: "Creating a Keyboard Shortcut Hook in React (Deep Dive)",
+      date: "October 19",
+    },
+    {
+      id: "tables-fixed-headers",
+      title: "Tables with Fixed Headers and Horizontal Scroll",
+      date: "October 9",
+    }
+  ],
+  "2023": [
+    {
+      id: "websockets-redux",
+      title: "How to Use WebSockets in a Redux Application",
+      date: "February 15",
+    },
+    {
+      id: "graphql-types",
+      title: "Understanding the GraphQL Type System",
+      date: "January 27",
+    }
+  ],
+  "2022": [
+    {
+      id: "testing-api-jest",
+      title: "Testing API Calls With React Testing Library and Jest",
+      date: "December 9",
+    },
+    {
+      id: "react-router-path",
+      title: "Using Path Matching in React Router",
+      date: "December 5",
+    }
+  ]
+};
 
 const BlogPage: React.FC = () => {
+  const [showFullBlog, setShowFullBlog] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  
+  // Function to find post details from ID
+  const findSelectedPost = () => {
+    if (!selectedPostId) return null;
+    
+    for (const year in blogPosts) {
+      const post = blogPosts[year].find(post => post.id === selectedPostId);
+      if (post) return post;
+    }
+    return null;
+  };
+  
+  const selectedPost = findSelectedPost();
+  
+  const sampleComments = [
+    {
+      id: '1',
+      author: 'DevEnthusiast',
+      authorAvatar: 'https://github.com/identicons/app/oauth_app.png',
+      content: "This is a fantastic overview! I especially appreciate the section on generics, which is often a confusing topic for beginners.",
+      timestamp: '2025-04-28T15:30:00Z',
+    },
+    {
+      id: '2',
+      author: 'TypeScriptFan',
+      authorAvatar: 'https://github.com/identicons/app/other_app.png',
+      content: "Great article! I would love to see a follow-up on advanced patterns like conditional types and mapped types.",
+      timestamp: '2025-04-29T10:15:00Z',
+    },
+  ];
+
   const sampleBlogContent = (
     <>
       <p>
@@ -98,19 +165,105 @@ type Readonly<T> = {
     </>
   );
 
+  // Filter posts based on search query
+  const getFilteredPosts = () => {
+    if (!searchQuery.trim()) return blogPosts;
+    
+    const filtered: Record<string, typeof blogPosts[string]> = {};
+    
+    Object.keys(blogPosts).forEach(year => {
+      const matchingPosts = blogPosts[year].filter(post => 
+        post.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      
+      if (matchingPosts.length > 0) {
+        filtered[year] = matchingPosts;
+      }
+    });
+    
+    return filtered;
+  };
+  
+  const filteredPosts = getFilteredPosts();
+
   return (
     <>
-      <BlogPost
-        title="Understanding TypeScript: A Comprehensive Guide"
-        date="May 1, 2025"
-        content={sampleBlogContent}
-        tags={["TypeScript", "JavaScript", "Web Development", "Programming"]}
-      />
-      <CommentSection 
-        comments={sampleComments} 
-        postId="typescript-guide" 
-        postType="blog"
-      />
+      {!selectedPostId ? (
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-4xl font-bold mb-6">Blog</h1>
+          <p className="text-lg mb-10">
+            Guides, references, and tutorials on programming, web development, and design. View All Topics.
+          </p>
+
+          {/* Search Bar */}
+          <div className="relative mb-12">
+            <input
+              type="text"
+              placeholder="Search posts..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full p-3 pl-10 bg-vscode-sidebar border border-vscode-border rounded-md focus:outline-none focus:border-vscode-accent"
+            />
+            <Search className="absolute left-3 top-3.5 text-vscode-comment" size={18} />
+          </div>
+
+          {/* Timeline View */}
+          <div className="space-y-12">
+            {Object.keys(filteredPosts).length > 0 ? (
+              Object.entries(filteredPosts).map(([year, posts]) => (
+                <div key={year} className="mb-10">
+                  <h2 className="text-2xl font-bold mb-6">{year}</h2>
+                  <ul className="space-y-5">
+                    {posts.map(post => (
+                      <li key={post.id} className="group">
+                        <button
+                          onClick={() => setSelectedPostId(post.id)}
+                          className="w-full text-left flex items-start md:items-center flex-col md:flex-row gap-2 md:gap-0"
+                        >
+                          <div className="flex items-center">
+                            {post.isNew && (
+                              <span className="text-xs bg-vscode-highlight px-2 py-1 rounded mr-2">
+                                ✨ New
+                              </span>
+                            )}
+                            <span className="text-vscode-comment min-w-[80px] md:min-w-[120px]">{post.date}</span>
+                          </div>
+                          <span className="text-white group-hover:text-vscode-accent transition-colors">{post.title}</span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))
+            ) : (
+              <p className="text-center py-8 text-vscode-comment">No posts found matching your search.</p>
+            )}
+          </div>
+        </div>
+      ) : (
+        <>
+          <div className="mb-6">
+            <button 
+              onClick={() => setSelectedPostId(null)}
+              className="flex items-center text-vscode-accent hover:underline"
+            >
+              ← Back to Blog
+            </button>
+          </div>
+          
+          <BlogPost
+            title={selectedPost?.title || "Understanding TypeScript: A Comprehensive Guide"}
+            date="May 1, 2025"
+            content={sampleBlogContent}
+            tags={["TypeScript", "JavaScript", "Web Development", "Programming"]}
+          />
+          <CommentSection 
+            comments={sampleComments} 
+            postId={selectedPostId || "typescript-guide"} 
+            postType="blog"
+          />
+        </>
+      )}
     </>
   );
 };

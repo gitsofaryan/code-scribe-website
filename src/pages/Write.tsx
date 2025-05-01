@@ -1,6 +1,9 @@
 
 import React, { useState } from 'react';
-import { Edit } from 'lucide-react';
+import { Edit, Pencil, FileText, Eye } from 'lucide-react';
+import { toast } from "sonner";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
 
 const Write: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -8,10 +11,14 @@ const Write: React.FC = () => {
   const [isNoteType, setIsNoteType] = useState(true);
   const [tags, setTags] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+  const [viewMode, setViewMode] = useState<'edit' | 'preview'>('edit');
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title || !content) return;
+    if (!title || !content) {
+      toast.error("Please provide both title and content");
+      return;
+    }
     
     setIsSaving(true);
     
@@ -26,13 +33,40 @@ const Write: React.FC = () => {
       });
       
       setIsSaving(false);
-      alert(`Your ${isNoteType ? 'note' : 'blog post'} has been saved`);
+      toast.success(`Your ${isNoteType ? 'note' : 'blog post'} has been saved`);
       
       // Reset form
       setTitle('');
       setContent('');
       setTags('');
     }, 1500);
+  };
+
+  // Simple markdown preview renderer
+  const renderMarkdown = (markdown: string) => {
+    // This is a very basic markdown renderer for preview purposes
+    // In a real app you would use a library like marked or react-markdown
+    let html = markdown
+      // Headers
+      .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+      .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+      .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+      // Bold and italic
+      .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
+      .replace(/\*(.*)\*/gim, '<em>$1</em>')
+      // Code blocks
+      .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
+      // Inline code
+      .replace(/`([^`]+)`/g, '<code>$1</code>')
+      // Lists
+      .replace(/^\s*\n\* (.*)/gim, '<ul>\n<li>$1</li>')
+      .replace(/^\s*\n- (.*)/gim, '<ul>\n<li>$1</li>')
+      // Paragraphs
+      .replace(/^\s*\n([^\n]+)\n/gim, '<p>$1</p>')
+      // Line breaks
+      .replace(/\n/gim, '<br>');
+
+    return { __html: html };
   };
   
   return (
@@ -58,7 +92,10 @@ const Write: React.FC = () => {
                 : 'bg-vscode-sidebar border border-vscode-border text-vscode-text'
               }`}
             >
-              Note
+              <div className="flex items-center">
+                <Pencil size={16} className="mr-2" />
+                Note
+              </div>
             </button>
             <button
               type="button"
@@ -69,7 +106,10 @@ const Write: React.FC = () => {
                 : 'bg-vscode-sidebar border border-vscode-border text-vscode-text'
               }`}
             >
-              Blog Post
+              <div className="flex items-center">
+                <FileText size={16} className="mr-2" />
+                Blog Post
+              </div>
             </button>
           </div>
           
@@ -107,18 +147,45 @@ const Write: React.FC = () => {
           <label htmlFor="content" className="block text-white font-medium mb-2">
             Content
           </label>
-          <textarea
-            id="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            className="w-full p-4 bg-vscode-sidebar border border-vscode-border rounded-md focus:outline-none focus:border-vscode-accent font-mono"
-            placeholder="Write your content here..."
-            rows={15}
-            required
-          />
-          <p className="text-vscode-comment text-sm mt-2">
-            Supports Markdown formatting
-          </p>
+          
+          <Tabs defaultValue="edit" className="w-full">
+            <TabsList className="mb-2">
+              <TabsTrigger value="edit" onClick={() => setViewMode('edit')}>
+                <div className="flex items-center">
+                  <Edit size={16} className="mr-2" />
+                  Edit
+                </div>
+              </TabsTrigger>
+              <TabsTrigger value="preview" onClick={() => setViewMode('preview')}>
+                <div className="flex items-center">
+                  <Eye size={16} className="mr-2" />
+                  Preview
+                </div>
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="edit" className="mt-0">
+              <Textarea
+                id="content"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                className="w-full p-4 bg-vscode-sidebar border border-vscode-border rounded-md focus:outline-none focus:border-vscode-accent font-mono min-h-[300px]"
+                placeholder="Write your content here using Markdown..."
+                required
+              />
+              <p className="text-vscode-comment text-sm mt-2">
+                Supports Markdown formatting
+              </p>
+            </TabsContent>
+            <TabsContent value="preview" className="mt-0">
+              <div className="min-h-[300px] p-4 bg-vscode-sidebar border border-vscode-border rounded-md prose prose-invert max-w-none">
+                {content ? (
+                  <div dangerouslySetInnerHTML={renderMarkdown(content)} />
+                ) : (
+                  <p className="text-vscode-comment">Preview will appear here...</p>
+                )}
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
         
         <div className="flex justify-end">
