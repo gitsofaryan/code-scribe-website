@@ -75,13 +75,13 @@
     @apply border-border;
   }
   body {
-    @apply bg-vscode-bg text-vscode-text antialiased;
+    @apply bg-[#181818] text-vscode-text antialiased;
     font-family: 'Inter', sans-serif;
   }
   
   /* Code block styling */
   pre {
-    @apply bg-[#1e1e1e] border border-vscode-border rounded-md p-4 my-4 overflow-x-auto text-sm font-code;
+    @apply bg-[#181818] border border-[#181818] rounded-md p-4 my-4 overflow-x-auto text-sm font-code;
   }
   
   code {

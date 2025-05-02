@@ -6,7 +6,7 @@ const Home: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto">
       <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-        Hey, I'm Tania!
+        Hey, I'm Arien!
       </h1>
       
       <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mt-8">
@@ -40,9 +40,9 @@ const Home: React.FC = () => {
         
         <div className="md:col-span-2">
           <img 
-            src="/lovable-uploads/5d86e3a2-da20-4de2-99e5-bdb010ff0242.png" 
+            src="/img/ironman.png" 
             alt="Ram illustration" 
-            className="w-full rounded-lg"
+            className="w-[200px] ml-28  rounded-lg"
           />
         </div>
       </div>
