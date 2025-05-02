@@ -4,27 +4,28 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
-import { Github, Linkedin, Mail, ExternalLink, Award, Briefcase, GraduationCap, Code, Monitor, Headphones, Cpu, Keyboard, Terminal, Clock } from 'lucide-react';
+import { Github, Linkedin, Mail, ExternalLink, Award, Briefcase, GraduationCap, Code, Monitor, Headphones, Cpu, Keyboard, Terminal, Clock, MailIcon, CodeSquareIcon, InstagramIcon } from 'lucide-react';
 
 const About: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto animate-fade-in">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
         <div className="col-span-2">
           <h1 className="text-4xl font-bold mb-6 text-gradient">About Me</h1>
           
           <div className="mb-8">
             <p className="text-lg mb-5">
-              Hey, I'm <span className="text-vscode-variable font-medium">Aryan Jain</span> — a software developer, open-source contributor, and AI enthusiast. I love building tools that solve real problems and make technology more accessible.
+              Hey, I'm <span className="text-vscode-variable font-medium">Aryan Jain</span> — a software developer, open-source creator, and AI enthusiast. I love building tools that solve real problems and make technology more accessible.
             </p>
-            
-            <p className="mb-5">
-              I've contributed to open-source projects at <strong className="text-white">CircuitVerse</strong> and <strong className="text-white">Palisadoes</strong>, interned at <strong className="text-white">Persistent Systems</strong>, and led student communities like Google DSC and Web3 Club (1000+ members). I'm also a Regional Finalist in the <strong className="text-white">Google Solutions Challenge 2024</strong> and a <strong className="text-white">Semi-Finalist in the Microsoft Imagine Cup</strong>.
+
+            <p>
+              Welcome to my personal corner on the web — a space for writing, projects, tutorials, art, and whatever else I’m inspired to share. You’ll find my technical notes, articles, and highlights from my open-source work on the projects page.
             </p>
-            
-            <p className="mb-8">
-              My work is about creating useful, human-centered technology — and sharing everything I learn along the way. I hope my projects inspire you to build your own ideas into reality.
+
+            <p>
+              This site is free of ads, tracking, affiliate links, sponsored posts, and paywalls. It’s simply a place for creativity, learning, and honest expression. I hope it inspires you to carve out your own meaningful space on the internet, especially in an era where authentic, user-first platforms are becoming increasingly rare.
             </p>
+
 
             <div className="flex flex-wrap gap-4 mb-8">
               <a 
@@ -46,11 +47,12 @@ const About: React.FC = () => {
                 <span>LinkedIn</span>
               </a>
               <a 
-                href="mailto:mail.aryan.jain07@gmail.com"
+                href="https://devpost.com/gitsofaryan"
+                target='_blank'
                 className="inline-flex items-center gap-2 px-4 py-2 bg-[#1F1F1F] hover:bg-[#2a2a2a] transition-colors duration-300 rounded-lg border border-vscode-border hover:border-vscode-accent"
               >
-                <Mail size={18} className="text-vscode-accent" />
-                <span>Email</span>
+                <CodeSquareIcon size={18} className="text-vscode-accent" />
+                <span>Hacks</span>
               </a>
               <a 
                 href="https://leetcode.com/u/arien7" 
@@ -61,6 +63,24 @@ const About: React.FC = () => {
                 <Code size={18} className="text-vscode-accent" />
                 <span>LeetCode</span>
               </a>
+              <section className="my-4">
+                <h2 className="text-2xl font-semibold mb-4">GitHub</h2>
+                <img
+                  src="https://ghchart.rshah.org/gitsofaryan"
+                  alt="GitHub Contribution Graph"
+                  className="mx-auto w-full max-w-3xl text-2xl"
+                />
+              
+         
+                <h2 className="text-2xl font-bold mb-4">LeetCode</h2>
+                <img
+                  src="https://leetcard.jacoblin.cool/arien7?theme=dark"
+                  alt="LeetCode Stats"
+                  className="mx-auto"
+                />
+              </section>
+
+
             </div>
           </div>
 
@@ -95,6 +115,59 @@ const About: React.FC = () => {
                 </div>
               </CardContent>
             </Card>
+          </section>
+
+          {/* Technical Skills */}
+          <section className="mb-12">
+            <h2 className="text-2xl font-bold mb-6 text-white">Technical Skills</h2>
+
+            <Collapsible className="mb-4">
+              <CollapsibleTrigger className="w-full flex justify-between items-center p-3 bg-[#1F1F1F] hover:bg-[#2a2a2a] rounded-lg border border-vscode-border transition-colors duration-300">
+                <span className="text-lg font-medium">Languages</span>
+                <span className="text-vscode-accent">+</span>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="mt-2 space-y-2">
+                <div className="flex flex-wrap gap-2 p-3 bg-[#161616] rounded-md">
+                  {['TypeScript', 'JavaScript', 'Python', 'C/C++', 'SQL'].map((skill) => (
+                    <span key={skill} className="px-3 py-1.5 bg-vscode-highlight rounded-full text-sm transition-all duration-300 hover:bg-opacity-80">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
+
+            <Collapsible className="mb-4">
+              <CollapsibleTrigger className="w-full flex justify-between items-center p-3 bg-[#1F1F1F] hover:bg-[#2a2a2a] rounded-lg border border-vscode-border transition-colors duration-300">
+                <span className="text-lg font-medium">Libraries & Frameworks</span>
+                <span className="text-vscode-accent">+</span>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="mt-2 space-y-2">
+                <div className="flex flex-wrap gap-2 p-3 bg-[#161616] rounded-md">
+                  {['React.js', 'Next.js', 'Vue.js', 'Node.js', 'Express.js', 'Tailwindcss', 'Streamlit'].map((skill) => (
+                    <span key={skill} className="px-3 py-1.5 bg-vscode-highlight rounded-full text-sm transition-all duration-300 hover:bg-opacity-80">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
+
+            <Collapsible className="mb-4">
+              <CollapsibleTrigger className="w-full flex justify-between items-center p-3 bg-[#1F1F1F] hover:bg-[#2a2a2a] rounded-lg border border-vscode-border transition-colors duration-300">
+                <span className="text-lg font-medium">Tools & Platforms</span>
+                <span className="text-vscode-accent">+</span>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="mt-2 space-y-2">
+                <div className="flex flex-wrap gap-2 p-3 bg-[#161616] rounded-md">
+                  {['Git', 'GitHub', 'MongoDB', 'SupaBase', 'Docker', 'Amazon AWS', 'Google GCP', 'MS AZURE', 'GitLab'].map((skill) => (
+                    <span key={skill} className="px-3 py-1.5 bg-vscode-highlight rounded-full text-sm transition-all duration-300 hover:bg-opacity-80">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
           </section>
 
           {/* Tools Section */}
@@ -369,58 +442,7 @@ const About: React.FC = () => {
             </div>
           </section>
 
-          {/* Technical Skills */}
-          <section className="mb-12">
-            <h2 className="text-2xl font-bold mb-6 text-white">Technical Skills</h2>
-            
-            <Collapsible className="mb-4">
-              <CollapsibleTrigger className="w-full flex justify-between items-center p-3 bg-[#1F1F1F] hover:bg-[#2a2a2a] rounded-lg border border-vscode-border transition-colors duration-300">
-                <span className="text-lg font-medium">Languages</span>
-                <span className="text-vscode-accent">+</span>
-              </CollapsibleTrigger>
-              <CollapsibleContent className="mt-2 space-y-2">
-                <div className="flex flex-wrap gap-2 p-3 bg-[#161616] rounded-md">
-                  {['TypeScript', 'JavaScript', 'Python', 'C/C++', 'SQL'].map((skill) => (
-                    <span key={skill} className="px-3 py-1.5 bg-vscode-highlight rounded-full text-sm transition-all duration-300 hover:bg-opacity-80">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </CollapsibleContent>
-            </Collapsible>
-            
-            <Collapsible className="mb-4">
-              <CollapsibleTrigger className="w-full flex justify-between items-center p-3 bg-[#1F1F1F] hover:bg-[#2a2a2a] rounded-lg border border-vscode-border transition-colors duration-300">
-                <span className="text-lg font-medium">Libraries & Frameworks</span>
-                <span className="text-vscode-accent">+</span>
-              </CollapsibleTrigger>
-              <CollapsibleContent className="mt-2 space-y-2">
-                <div className="flex flex-wrap gap-2 p-3 bg-[#161616] rounded-md">
-                  {['React.js', 'Next.js', 'Vue.js', 'Node.js', 'Express.js', 'Tailwindcss', 'Streamlit'].map((skill) => (
-                    <span key={skill} className="px-3 py-1.5 bg-vscode-highlight rounded-full text-sm transition-all duration-300 hover:bg-opacity-80">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </CollapsibleContent>
-            </Collapsible>
-            
-            <Collapsible className="mb-4">
-              <CollapsibleTrigger className="w-full flex justify-between items-center p-3 bg-[#1F1F1F] hover:bg-[#2a2a2a] rounded-lg border border-vscode-border transition-colors duration-300">
-                <span className="text-lg font-medium">Tools & Platforms</span>
-                <span className="text-vscode-accent">+</span>
-              </CollapsibleTrigger>
-              <CollapsibleContent className="mt-2 space-y-2">
-                <div className="flex flex-wrap gap-2 p-3 bg-[#161616] rounded-md">
-                  {['Git', 'GitHub', 'MongoDB', 'SupaBase', 'Docker', 'Amazon AWS', 'Google GCP', 'MS AZURE', 'GitLab'].map((skill) => (
-                    <span key={skill} className="px-3 py-1.5 bg-vscode-highlight rounded-full text-sm transition-all duration-300 hover:bg-opacity-80">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </CollapsibleContent>
-            </Collapsible>
-          </section>
+       
 
           {/* Education */}
           <section className="mb-12">
@@ -430,13 +452,13 @@ const About: React.FC = () => {
             </h2>
             
             <Card className="bg-[#1F1F1F] border-vscode-border hover:border-vscode-accent transition-colors duration-300">
-              <CardContent className="pt-6">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-xl font-semibold text-white">Gyan Ganga Institute of Technology and Sciences, Jabalpur</h3>
-                  <span className="text-sm text-vscode-comment">2022-26</span>
+              <CardContent className="pt-1">
+                <div className="flex justify-between items-center ">
+                  <h3 className="text-lg font-semibold text-white">Gyan Ganga Institute of Technology and Sciences, Jabalpur</h3>
+                  <span className="text-sm text-vscode-comment">2026</span>
                 </div>
                 <p className="text-vscode-text">Bachelor of Technology in Computer Science and Business System (CSBS)</p>
-                <p className="text-vscode-variable mt-2">CGPA: 8</p>
+                <p className="text-vscode-variable">CGPA: 8</p>
               </CardContent>
             </Card>
           </section>
@@ -486,32 +508,34 @@ const About: React.FC = () => {
         </div>
 
         <div>
-          <div className="sticky top-24">
+          <div className="sticky top-48">
             <img
               src="/img/me.png"
               alt="Aryan Jain"
               className="w-full rounded-xl shadow-xl mb-6 border border-vscode-border transform hover:scale-[1.02] transition-transform duration-300"
             />
+          
+
             
             <Card className="mb-6 bg-[#1F1F1F] border-vscode-border hover:border-vscode-accent transition-colors duration-300">
-              <CardContent className="pt-6">
+              <CardContent >
                 <h3 className="text-lg font-semibold mb-3">Get In Touch</h3>
                 <div className="space-y-2">
-                  <a 
+                  {/* <a 
                     href="mailto:mail.aryan.jain07@gmail.com" 
                     className="flex items-center gap-2 text-vscode-text hover:text-vscode-accent transition-colors duration-300"
                   >
-                    <Mail size={16} />
+                    <Mail size={24} />
                     <span>mail.aryan.jain07@gmail.com</span>
-                  </a>
+                  </a> */}
                   <a 
-                    href="https://github.com/gitsofaryan" 
+                    href="https://instagram.com/arien_jain" 
                     target="_blank"
                     rel="noopener noreferrer" 
                     className="flex items-center gap-2 text-vscode-text hover:text-vscode-accent transition-colors duration-300"
                   >
-                    <Github size={16} />
-                    <span>gitsofaryan</span>
+                    <InstagramIcon size={16} />
+                    <span>arien_jain</span>
                   </a>
                   <a 
                     href="https://linkedin.com/in/aryan-jain07" 

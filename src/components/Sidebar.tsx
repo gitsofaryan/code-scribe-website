@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { GithubIcon, Link2OffIcon, LinkedinIcon, Mail, Rss, TwitterIcon } from 'lucide-react';
+import { GithubIcon, InstagramIcon, Link2OffIcon, LinkedinIcon, Mail, Rss, TwitterIcon } from 'lucide-react';
 import { Line } from 'recharts';
 
 const Sidebar: React.FC = () => {
@@ -44,6 +44,17 @@ const Sidebar: React.FC = () => {
           <TwitterIcon size={16} />
           <span>Twitter/X</span>
           </a>
+        </li>
+        <li>
+              <a
+                href="https://instagram.com/arien_jain"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm flex items-center space-x-2 hover:text-white transition-colors"
+              >
+                <InstagramIcon size={16} />
+                <span>arien_jain</span>
+              </a>
         </li>
         </ul>
       </div>
