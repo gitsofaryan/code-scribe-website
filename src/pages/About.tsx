@@ -93,14 +93,41 @@ const About: React.FC = () => {
             <Card className="bg-[#1F1F1F] border-vscode-border hover:border-vscode-accent transition-colors duration-300">
               <CardContent className="pt-6">
                 <div className="mb-2">
-                  <p className="text-sm text-vscode-comment">Updated April 9th, 2025</p>
+                  <p className="text-sm text-vscode-comment">Updated May 2nd, 2025</p>
                 </div>
                 <div className="space-y-4">
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-2">Working full-time</h3>
+                    <h3 className="text-xl font-semibold text-white mb-2">Contributing to Open Source</h3>
+                    <ul className="list-disc list-inside text-vscode-text space-y-1 pl-4">
+                      <li>CircuitVerse - Vue Simulator enhancements</li>
+                      <li>Preparing for Google Summer of Code</li>
+                      <li>Participating in Summer of Bitcoin program</li>
+                    </ul>
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-2">Playing Marvel Rivals</h3>
+                    <h3 className="text-xl font-semibold text-white mb-2">Exploring Blockchain</h3>
+                    <p className="text-vscode-text">Building dApps and learning smart contract development</p>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-2">College Life</h3>
+                    <p className="text-vscode-text">Currently in 3rd year of Computer Science and Business Systems</p>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-2">Community Leadership</h3>
+                    <ul className="list-disc list-inside text-vscode-text space-y-1 pl-4">
+                      <li>Leading tech communities on campus</li>
+                      <li>Organizing hackathons and tech events</li>
+                      <li>Participating in various hackathons</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-2">Hobbies</h3>
+                    <ul className="list-disc list-inside text-vscode-text space-y-1 pl-4">
+                      <li>Building side projects</li>
+                      <li>Watching movies</li>
+                      <li>Exploring astronomy and astrology</li>
+                      <li>Playing Marvel Rivals</li>
+                    </ul>
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold text-white mb-2">Lifting</h3>
