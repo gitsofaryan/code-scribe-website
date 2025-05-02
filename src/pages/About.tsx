@@ -208,12 +208,13 @@ const About: React.FC = () => {
               <Card className="bg-[#1F1F1F] border-vscode-border hover:border-vscode-accent transition-colors duration-300">
                 <CardContent className="pt-6">
                   <h3 className="text-xl font-semibold text-white mb-4">Software</h3>
-                  <p className="mb-4 text-vscode-text">This website is hosted on Netlify and uses the Gatsby SSG framework.</p>
+                  <p className="mb-4 text-vscode-text">This website is hosted on Vercel.</p>
                   <ul className="list-disc list-inside text-vscode-text space-y-2 pl-4">
+                    <li><span className="text-white">OS:</span> Mac, Windows & Linux</li>
                     <li><span className="text-white">Coding:</span> Visual Studio Code</li>
-                    <li><span className="text-white">Theme:</span> New Moon Theme, my custom syntax theme!</li>
-                    <li><span className="text-white">Terminal:</span> iTerm2</li>
-                    <li><span className="text-white">Notes:</span> Obsidian</li>
+                    <li><span className="text-white">Theme:</span> Tokyo, Night dark Enhanced!</li>
+                    <li><span className="text-white">Terminal:</span> wsl, powershell</li>
+                    <li><span className="text-white">Browser:</span> Chrome</li>
                   </ul>
                 </CardContent>
               </Card>
@@ -222,24 +223,22 @@ const About: React.FC = () => {
                 <CardContent className="pt-6">
                   <h3 className="text-xl font-semibold text-white mb-4">Hardware</h3>
                   <div className="space-y-4">
+                  
                     <div>
                       <h4 className="font-medium text-vscode-variable">Coding PC</h4>
-                      <p className="text-vscode-text">M1 MacBook Pro 16" 2021, 32GB RAM</p>
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-vscode-variable">Gaming PC</h4>
                       <ul className="list-disc list-inside text-vscode-text space-y-1 pl-4">
-                        <li><span className="text-white">CPU:</span> AMD Ryzen 5 3600</li>
-                        <li><span className="text-white">Motherboard:</span> ASRock B550 Phantom Gaming 4</li>
-                        <li><span className="text-white">Memory:</span> Crucial Ballistix 32GB</li>
-                        <li><span className="text-white">Storage:</span> SSD 970 EVO NVMe M.2 1TB</li>
-                        <li><span className="text-white">GPU:</span> Radeon 6950XT</li>
-                        <li><span className="text-white">PSU:</span> EVGA SuperNOVA 650 G+</li>
-                        <li><span className="text-white">Case:</span> H510 Elite</li>
-                        <li><span className="text-white">Monitor:</span> TUF Gaming VG27AQ (x2)</li>
-                        <li><span className="text-white">Keyboard:</span> Durgod Fusion</li>
-                        <li><span className="text-white">Microphone:</span> Blue Yeti</li>
+                        <li><span className="text-white">CPU:</span> AMD Ryzen 7 7700X</li>
+                        <li><span className="text-white">Motherboard:</span> ASUS ROG Strix B650-A Gaming WiFi</li>
+                        <li><span className="text-white">Memory:</span> Corsair Vengeance 32GB DDR5 6000MHz</li>
+                        <li><span className="text-white">Storage:</span> Samsung 980 PRO NVMe M.2 1TB</li>
+                        <li><span className="text-white">GPU:</span> Radeon RX 6950 XT</li>
+                        <li><span className="text-white">PSU:</span> Corsair RM850x 80+ Gold</li>
+                        <li><span className="text-white">Case:</span> NZXT H510 Elite</li>
+                        <li><span className="text-white">Monitor:</span> ASUS TUF Gaming VG27AQ (x2)</li>
+                        <li><span className="text-white">Keyboard:</span> Durgod Fusion Wireless</li>
+                        <li><span className="text-white">Microphone:</span> Blue Yeti Blackout Edition</li>
                         <li><span className="text-white">Headphones:</span> Sony WH-1000XM3</li>
+
                       </ul>
                     </div>
                   </div>
@@ -255,40 +254,25 @@ const About: React.FC = () => {
               Experience
             </h2>
             
-            <div className="space-y-6">
+            <div className="space-y-2">
               <Card className="bg-[#1F1F1F] border-vscode-border hover:border-vscode-accent transition-colors duration-300">
-                <CardContent className="pt-6">
-                  <div className="flex justify-between items-start mb-2">
+                <CardContent >
+                  <div className="flex justify-between items-start mb-1">
                     <h3 className="text-xl font-semibold text-white">Service Connect (Cisco ThingQbator)</h3>
-                    <span className="text-sm text-vscode-comment">November'24-Present</span>
+                  
                   </div>
-                  <div className="flex justify-between items-center mb-3">
+                  <div className="flex justify-between items-center mb-1">
                     <p className="text-vscode-variable">Co-founder, Frontend Developer</p>
-                    <span className="text-sm text-vscode-comment">Bangalore (remote), India</span>
+              
                   </div>
                   <ul className="list-disc list-inside text-vscode-text space-y-1">
                     <li>Created the frontend of a user-centric startup website using React.js by integrating Firebase authentication and optimizing responsiveness across devices.</li>
-                    <li>Built my startup's "Service Connect" website using Next.js with a full-stack architecture, implementing a robust authentication system using Axios—this achievement helped secure seed funding of 5 lac rupees.</li>
+                    <li>Built my startup's "Service Connect" website using Next.js with a full-stack architecture, implementing a robust authentication system using Axios.</li>
                   </ul>
                 </CardContent>
               </Card>
               
-              <Card className="bg-[#1F1F1F] border-vscode-border hover:border-vscode-accent transition-colors duration-300">
-                <CardContent className="pt-6">
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-xl font-semibold text-white">Persistent Systems</h3>
-                    <span className="text-sm text-vscode-comment">October-December'23</span>
-                  </div>
-                  <div className="flex justify-between items-center mb-3">
-                    <p className="text-vscode-variable">Frontend Developer Intern</p>
-                    <span className="text-sm text-vscode-comment">Bangalore (remote), India</span>
-                  </div>
-                  <ul className="list-disc list-inside text-vscode-text space-y-1">
-                    <li>Enhanced the frontend of a user-centric website using React.js by integrating Firebase authentication and optimizing responsiveness across devices.</li>
-                    <li>Developed an admin portal using React.js, which contributed to a 35% reduction in the bounce rate.</li>
-                  </ul>
-                </CardContent>
-              </Card>
+        
             </div>
           </section>
 
@@ -456,7 +440,7 @@ const About: React.FC = () => {
               </div>
               <div className="flex items-start gap-3 hover:bg-[#1F1F1F] p-3 rounded-md transition-colors duration-300">
                 <span className="text-vscode-accent text-xl font-bold mt-0.5">•</span>
-                <span>Competed in 60+ hackathons with 12 wins</span>
+                <span>Competed in 70+ hackathons with 12 wins</span>
               </div>
               <div className="flex items-start gap-3 hover:bg-[#1F1F1F] p-3 rounded-md transition-colors duration-300">
                 <span className="text-vscode-accent text-xl font-bold mt-0.5">•</span>
@@ -490,7 +474,7 @@ const About: React.FC = () => {
             </Card>
           </section>
 
-          {/* Get In Touch Section */}
+          {/* Get In Touch Section
           <section className="mb-8">
             <h2 className="text-2xl font-bold mb-6 text-white flex items-center gap-2">
               <Mail size={24} className="text-vscode-accent" />
@@ -531,7 +515,7 @@ const About: React.FC = () => {
                 </div>
               </CardContent>
             </Card>
-          </section>
+          </section> */}
         </div>
 
         <div>
@@ -548,13 +532,13 @@ const About: React.FC = () => {
               <CardContent >
                 <h3 className="text-lg font-semibold mb-3">Get In Touch</h3>
                 <div className="space-y-2">
-                  {/* <a 
+                  <a 
                     href="mailto:mail.aryan.jain07@gmail.com" 
                     className="flex items-center gap-2 text-vscode-text hover:text-vscode-accent transition-colors duration-300"
                   >
-                    <Mail size={24} />
-                    <span>mail.aryan.jain07@gmail.com</span>
-                  </a> */}
+                    <Mail size={16} />
+                    <span>Mail</span>
+                  </a>
                   <a 
                     href="https://instagram.com/arien_jain" 
                     target="_blank"
