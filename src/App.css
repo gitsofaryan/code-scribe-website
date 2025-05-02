@@ -1,3 +1,4 @@
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -49,4 +50,39 @@
 .hide-scrollbar {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;     /* Firefox */
+}
+
+/* Text gradient for headings */
+.text-gradient {
+  @apply bg-gradient-to-r from-vscode-accent via-vscode-variable to-vscode-accent bg-clip-text text-transparent;
+}
+
+/* Hover effects for interactive elements */
+.hover-scale {
+  @apply transition-transform duration-300 hover:scale-105;
+}
+
+/* Card hover effects */
+.card-hover {
+  @apply transition-all duration-300 hover:shadow-lg hover:border-vscode-accent;
+}
+
+/* Animated underline for links */
+.link-underline {
+  position: relative;
+}
+
+.link-underline:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: currentColor;
+  transition: width 0.3s ease-out;
+}
+
+.link-underline:hover:after {
+  width: 100%;
 }
