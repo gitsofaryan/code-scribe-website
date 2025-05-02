@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
-import { Github, Linkedin, Mail, ExternalLink, Award, Briefcase, GraduationCap, Code } from 'lucide-react';
+import { Github, Linkedin, Mail, ExternalLink, Award, Briefcase, GraduationCap, Code, Monitor, Headphones, Cpu, Keyboard, Terminal, Clock } from 'lucide-react';
 
 const About: React.FC = () => {
   return (
@@ -31,7 +31,7 @@ const About: React.FC = () => {
                 href="https://github.com/gitsofaryan" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 bg-[#1F1F1F] hover:bg-[#2a2a2a] transition-colors duration-300 rounded-lg border border-vscode-border"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-[#1F1F1F] hover:bg-[#2a2a2a] transition-colors duration-300 rounded-lg border border-vscode-border hover:border-vscode-accent"
               >
                 <Github size={18} className="text-vscode-accent" />
                 <span>GitHub</span>
@@ -40,14 +40,14 @@ const About: React.FC = () => {
                 href="https://linkedin.com/in/aryan-jain07" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 bg-[#1F1F1F] hover:bg-[#2a2a2a] transition-colors duration-300 rounded-lg border border-vscode-border"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-[#1F1F1F] hover:bg-[#2a2a2a] transition-colors duration-300 rounded-lg border border-vscode-border hover:border-vscode-accent"
               >
                 <Linkedin size={18} className="text-vscode-accent" />
                 <span>LinkedIn</span>
               </a>
               <a 
                 href="mailto:mail.aryan.jain07@gmail.com"
-                className="inline-flex items-center gap-2 px-4 py-2 bg-[#1F1F1F] hover:bg-[#2a2a2a] transition-colors duration-300 rounded-lg border border-vscode-border"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-[#1F1F1F] hover:bg-[#2a2a2a] transition-colors duration-300 rounded-lg border border-vscode-border hover:border-vscode-accent"
               >
                 <Mail size={18} className="text-vscode-accent" />
                 <span>Email</span>
@@ -56,13 +56,97 @@ const About: React.FC = () => {
                 href="https://leetcode.com/u/arien7" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 bg-[#1F1F1F] hover:bg-[#2a2a2a] transition-colors duration-300 rounded-lg border border-vscode-border"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-[#1F1F1F] hover:bg-[#2a2a2a] transition-colors duration-300 rounded-lg border border-vscode-border hover:border-vscode-accent"
               >
                 <Code size={18} className="text-vscode-accent" />
                 <span>LeetCode</span>
               </a>
             </div>
           </div>
+
+          {/* What I'm Doing Now Section */}
+          <section className="mb-12">
+            <h2 className="text-2xl font-bold mb-6 text-white flex items-center gap-2">
+              <Clock size={24} className="text-vscode-accent" />
+              What I'm Doing Now
+            </h2>
+            <Card className="bg-[#1F1F1F] border-vscode-border hover:border-vscode-accent transition-colors duration-300">
+              <CardContent className="pt-6">
+                <div className="mb-2">
+                  <p className="text-sm text-vscode-comment">Updated April 9th, 2025</p>
+                </div>
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-2">Working full-time</h3>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-2">Playing Marvel Rivals</h3>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-2">Lifting</h3>
+                    <ul className="list-disc list-inside text-vscode-text space-y-1 pl-4">
+                      <li>Squat - 3x5 @ 110</li>
+                      <li>Bench Press - 3x5 @ 70</li>
+                      <li>Deadlift - 3x5 @ 145</li>
+                      <li>Bent Over Row - 3x5 @ 75</li>
+                      <li>Overhead Press - 3x5 @ 50</li>
+                    </ul>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </section>
+
+          {/* Tools Section */}
+          <section className="mb-12">
+            <h2 className="text-2xl font-bold mb-6 text-white flex items-center gap-2">
+              <Terminal size={24} className="text-vscode-accent" />
+              Tools
+            </h2>
+            
+            <div className="space-y-6">
+              <Card className="bg-[#1F1F1F] border-vscode-border hover:border-vscode-accent transition-colors duration-300">
+                <CardContent className="pt-6">
+                  <h3 className="text-xl font-semibold text-white mb-4">Software</h3>
+                  <p className="mb-4 text-vscode-text">This website is hosted on Netlify and uses the Gatsby SSG framework.</p>
+                  <ul className="list-disc list-inside text-vscode-text space-y-2 pl-4">
+                    <li><span className="text-white">Coding:</span> Visual Studio Code</li>
+                    <li><span className="text-white">Theme:</span> New Moon Theme, my custom syntax theme!</li>
+                    <li><span className="text-white">Terminal:</span> iTerm2</li>
+                    <li><span className="text-white">Notes:</span> Obsidian</li>
+                  </ul>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-[#1F1F1F] border-vscode-border hover:border-vscode-accent transition-colors duration-300">
+                <CardContent className="pt-6">
+                  <h3 className="text-xl font-semibold text-white mb-4">Hardware</h3>
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="font-medium text-vscode-variable">Coding PC</h4>
+                      <p className="text-vscode-text">M1 MacBook Pro 16" 2021, 32GB RAM</p>
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-vscode-variable">Gaming PC</h4>
+                      <ul className="list-disc list-inside text-vscode-text space-y-1 pl-4">
+                        <li><span className="text-white">CPU:</span> AMD Ryzen 5 3600</li>
+                        <li><span className="text-white">Motherboard:</span> ASRock B550 Phantom Gaming 4</li>
+                        <li><span className="text-white">Memory:</span> Crucial Ballistix 32GB</li>
+                        <li><span className="text-white">Storage:</span> SSD 970 EVO NVMe M.2 1TB</li>
+                        <li><span className="text-white">GPU:</span> Radeon 6950XT</li>
+                        <li><span className="text-white">PSU:</span> EVGA SuperNOVA 650 G+</li>
+                        <li><span className="text-white">Case:</span> H510 Elite</li>
+                        <li><span className="text-white">Monitor:</span> TUF Gaming VG27AQ (x2)</li>
+                        <li><span className="text-white">Keyboard:</span> Durgod Fusion</li>
+                        <li><span className="text-white">Microphone:</span> Blue Yeti</li>
+                        <li><span className="text-white">Headphones:</span> Sony WH-1000XM3</li>
+                      </ul>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </section>
 
           {/* Experience Section */}
           <section className="mb-12">
@@ -339,7 +423,7 @@ const About: React.FC = () => {
           </section>
 
           {/* Education */}
-          <section className="mb-8">
+          <section className="mb-12">
             <h2 className="text-2xl font-bold mb-6 text-white flex items-center gap-2">
               <GraduationCap size={24} className="text-vscode-accent" />
               Education
@@ -353,6 +437,49 @@ const About: React.FC = () => {
                 </div>
                 <p className="text-vscode-text">Bachelor of Technology in Computer Science and Business System (CSBS)</p>
                 <p className="text-vscode-variable mt-2">CGPA: 8</p>
+              </CardContent>
+            </Card>
+          </section>
+
+          {/* Get In Touch Section */}
+          <section className="mb-8">
+            <h2 className="text-2xl font-bold mb-6 text-white flex items-center gap-2">
+              <Mail size={24} className="text-vscode-accent" />
+              Get In Touch
+            </h2>
+            
+            <Card className="bg-[#1F1F1F] border-vscode-border hover:border-vscode-accent transition-colors duration-300">
+              <CardContent className="pt-6">
+                <p className="mb-6 text-vscode-text">Feel free to reach out for collaboration, questions, or just to say hello!</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <a 
+                    href="mailto:mail.aryan.jain07@gmail.com"
+                    className="flex items-center gap-3 p-4 bg-[#161616] hover:bg-[#1a1a1a] rounded-lg transition-colors duration-300 hover:border-vscode-accent border border-vscode-border"
+                  >
+                    <Mail size={20} className="text-vscode-accent" />
+                    <div>
+                      <p className="text-sm text-vscode-comment">Email</p>
+                      <p className="text-white">mail.aryan.jain07@gmail.com</p>
+                    </div>
+                  </a>
+                  <a 
+                    href="https://linkedin.com/in/aryan-jain07"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-4 bg-[#161616] hover:bg-[#1a1a1a] rounded-lg transition-colors duration-300 hover:border-vscode-accent border border-vscode-border"
+                  >
+                    <Linkedin size={20} className="text-vscode-accent" />
+                    <div>
+                      <p className="text-sm text-vscode-comment">LinkedIn</p>
+                      <p className="text-white">aryan-jain07</p>
+                    </div>
+                  </a>
+                </div>
+                <div className="mt-6">
+                  <Button asChild className="w-full bg-vscode-accent hover:bg-vscode-accent/90 text-white">
+                    <a href="/write">Write Me a Message</a>
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </section>
