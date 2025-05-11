@@ -1,11 +1,10 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Edit, Pencil, FileText, Eye, Github, Save } from 'lucide-react';
 import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { githubService } from '../services/GithubService';
-import GithubSettings from '../components/GithubSettings';
 import { useNavigate } from 'react-router-dom';
 
 const Write: React.FC = () => {
@@ -15,13 +14,8 @@ const Write: React.FC = () => {
   const [tags, setTags] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [viewMode, setViewMode] = useState<'edit' | 'preview'>('edit');
-  const [publishToGithub, setPublishToGithub] = useState(false);
+  const [publishToGithub, setPublishToGithub] = useState(true); // Default to true for public posting
   const navigate = useNavigate();
-  
-  useEffect(() => {
-    // Enable GitHub publishing by default if authenticated
-    setPublishToGithub(githubService.isAuthenticated());
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,12 +43,6 @@ const Write: React.FC = () => {
       
       // Publish to GitHub if option is selected
       if (publishToGithub) {
-        if (!githubService.isAuthenticated()) {
-          toast.error("Please connect to GitHub first");
-          setIsSaving(false);
-          return;
-        }
-        
         try {
           await githubService.createIssue({
             title,
@@ -114,11 +102,10 @@ const Write: React.FC = () => {
           <Edit className="mr-3" size={32} />
           Write
         </h1>
-        <GithubSettings />
       </div>
       
       <p className="text-lg mb-8">
-        Create a new note or blog post to share your thoughts and ideas.
+        Create a new note or blog post to share your thoughts and ideas. All posts are public.
       </p>
       
       <form onSubmit={handleSubmit}>
@@ -231,20 +218,18 @@ const Write: React.FC = () => {
         
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            {githubService.isAuthenticated() && (
-              <label className="flex items-center space-x-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={publishToGithub}
-                  onChange={(e) => setPublishToGithub(e.target.checked)}
-                  className="rounded border-vscode-border"
-                />
-                <span className="flex items-center">
-                  <Github size={16} className="mr-1" />
-                  Publish as GitHub Issue
-                </span>
-              </label>
-            )}
+            <label className="flex items-center space-x-2 text-sm">
+              <input
+                type="checkbox"
+                checked={publishToGithub}
+                onChange={(e) => setPublishToGithub(e.target.checked)}
+                className="rounded border-vscode-border"
+              />
+              <span className="flex items-center">
+                <Github size={16} className="mr-1" />
+                Publish as GitHub Issue (Public)
+              </span>
+            </label>
           </div>
           <button
             type="submit"

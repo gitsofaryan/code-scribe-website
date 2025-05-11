@@ -23,18 +23,16 @@ const GithubRepoInfo: React.FC<GithubRepoInfoProps> = ({ className }) => {
   const fetchGithubData = async () => {
     setIsLoading(true);
     
-    if (githubService.isAuthenticated()) {
-      try {
-        const [repo, user] = await Promise.all([
-          githubService.getRepoDetails(),
-          githubService.getUserDetails()
-        ]);
-        
-        setRepoDetails(repo);
-        setUserDetails(user);
-      } catch (error) {
-        console.error('Error fetching GitHub data:', error);
-      }
+    try {
+      const [repo, user] = await Promise.all([
+        githubService.getRepoDetails(),
+        githubService.getUserDetails()
+      ]);
+      
+      setRepoDetails(repo);
+      setUserDetails(user);
+    } catch (error) {
+      console.error('Error fetching GitHub data:', error);
     }
     
     setIsLoading(false);
@@ -50,21 +48,6 @@ const GithubRepoInfo: React.FC<GithubRepoInfoProps> = ({ className }) => {
     );
   }
 
-  if (!githubService.isAuthenticated()) {
-    return (
-      <Card className={`p-6 ${className}`}>
-        <div className="flex flex-col items-center text-center gap-3">
-          <AlertCircle className="text-amber-400" size={24} />
-          <h3 className="text-lg font-medium">Not connected to GitHub</h3>
-          <p className="text-sm text-vscode-comment mb-2">
-            Connect your GitHub account to enable saving content as issues
-          </p>
-          <GithubSettings />
-        </div>
-      </Card>
-    );
-  }
-
   if (!repoDetails || !userDetails) {
     return (
       <Card className={`p-6 ${className}`}>
@@ -72,7 +55,7 @@ const GithubRepoInfo: React.FC<GithubRepoInfoProps> = ({ className }) => {
           <AlertCircle className="text-red-400" size={24} />
           <h3 className="text-lg font-medium">Could not fetch GitHub data</h3>
           <p className="text-sm text-vscode-comment mb-2">
-            There was an issue accessing your repository
+            There was an issue accessing the repository
           </p>
           <Button onClick={fetchGithubData}>Retry</Button>
         </div>

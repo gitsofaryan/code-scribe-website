@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 
 interface GithubIssuePayload {
@@ -45,20 +44,22 @@ export class GithubService {
   }
 
   async createIssue(payload: GithubIssuePayload): Promise<any> {
-    if (!this.isAuthenticated()) {
-      throw new Error('Not authenticated with GitHub');
-    }
-
     try {
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      };
+      
+      // Add authentication token if available (for private repos)
+      if (this.token) {
+        headers['Authorization'] = `token ${this.token}`;
+      } else {
+        console.log('Creating public issue without authentication');
+      }
+      
       const response = await axios.post(
         `https://api.github.com/repos/${this.username}/${this.repo}/issues`,
         payload,
-        {
-          headers: {
-            'Authorization': `token ${this.token}`,
-            'Content-Type': 'application/json',
-          },
-        }
+        { headers }
       );
       return response.data;
     } catch (error) {
