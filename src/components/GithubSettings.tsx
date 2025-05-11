@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { githubService } from '../services/GithubService';
 import { toast } from "sonner";
-import { Github, CheckCircle, AlertCircle } from 'lucide-react';
+import { Github, CheckCircle, AlertCircle, Settings } from 'lucide-react';
 
 const GithubSettings: React.FC = () => {
   const [token, setToken] = useState(localStorage.getItem('github_token') || '');
@@ -34,8 +34,8 @@ const GithubSettings: React.FC = () => {
   };
 
   const validateCredentials = async () => {
-    if (!token || !username || !repo) {
-      toast.error('All fields are required');
+    if (!username || !repo) {
+      toast.error('Repository information is required');
       return false;
     }
 
@@ -47,22 +47,21 @@ const GithubSettings: React.FC = () => {
       githubService.setCredentials(token, username, repo);
       
       const repoDetails = await githubService.getRepoDetails();
-      const userDetails = await githubService.getUserDetails();
       
-      if (repoDetails && userDetails) {
+      if (repoDetails) {
         setValidationStatus('success');
         setRepoDetails(repoDetails);
-        toast.success('GitHub credentials validated successfully');
+        toast.success('GitHub repository validated successfully');
         return true;
       } else {
         setValidationStatus('error');
-        toast.error('Failed to validate GitHub credentials');
+        toast.error('Failed to validate GitHub repository');
         return false;
       }
     } catch (error) {
       console.error('Validation error:', error);
       setValidationStatus('error');
-      toast.error('Failed to validate GitHub credentials');
+      toast.error('Failed to validate GitHub repository');
       return false;
     } finally {
       setIsValidating(false);
@@ -88,23 +87,23 @@ const GithubSettings: React.FC = () => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" className="flex items-center gap-2">
-          <Github size={16} />
-          {githubService.isAuthenticated() ? 'GitHub Settings' : 'Connect GitHub'}
+          <Settings size={16} />
+          GitHub Settings
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>GitHub Settings</DialogTitle>
           <DialogDescription>
-            Connect your GitHub account to publish content as issues.
+            Configure which GitHub repository to use for publishing notes and blog posts as issues. Authentication is optional for public repositories.
           </DialogDescription>
         </DialogHeader>
         
-        {repoDetails && githubService.isAuthenticated() && !open && (
+        {repoDetails && (
           <div className="bg-vscode-sidebar p-3 rounded-md mb-4 border border-vscode-border">
             <div className="flex items-center gap-2 text-sm text-green-500 mb-2">
               <CheckCircle size={16} />
-              <span>Connected to GitHub</span>
+              <span>Connected to GitHub Repository</span>
             </div>
             <div className="flex items-center gap-2">
               <Github size={16} />
@@ -122,19 +121,6 @@ const GithubSettings: React.FC = () => {
         
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <label htmlFor="token" className="text-right text-sm font-medium">
-              Token
-            </label>
-            <Input
-              id="token"
-              type="password"
-              value={token}
-              onChange={(e) => setToken(e.target.value)}
-              placeholder="GitHub Personal Access Token"
-              className="col-span-3"
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
             <label htmlFor="username" className="text-right text-sm font-medium">
               Username
             </label>
@@ -144,6 +130,7 @@ const GithubSettings: React.FC = () => {
               onChange={(e) => setUsername(e.target.value)}
               placeholder="GitHub Username"
               className="col-span-3"
+              required
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
@@ -156,25 +143,40 @@ const GithubSettings: React.FC = () => {
               onChange={(e) => setRepo(e.target.value)}
               placeholder="Repository Name"
               className="col-span-3"
+              required
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <label htmlFor="token" className="text-right text-sm font-medium">
+              Token
+              <span className="text-xs text-vscode-comment block">(Optional)</span>
+            </label>
+            <Input
+              id="token"
+              type="password"
+              value={token}
+              onChange={(e) => setToken(e.target.value)}
+              placeholder="GitHub Personal Access Token (optional)"
+              className="col-span-3"
             />
           </div>
           
           {validationStatus === 'success' && (
             <div className="flex items-center gap-2 text-green-500 text-sm mt-2 bg-green-500/10 p-2 rounded">
               <CheckCircle size={16} />
-              <span>GitHub credentials validated successfully</span>
+              <span>GitHub repository validated successfully</span>
             </div>
           )}
           
           {validationStatus === 'error' && (
             <div className="flex items-center gap-2 text-red-500 text-sm mt-2 bg-red-500/10 p-2 rounded">
               <AlertCircle size={16} />
-              <span>Failed to validate GitHub credentials</span>
+              <span>Failed to validate GitHub repository</span>
             </div>
           )}
           
           <div className="text-sm text-vscode-comment">
-            <p>Note: You need to create a GitHub Personal Access Token with repo scope permissions.</p>
+            <p>Note: For public repositories, a token is not required. For private repositories or to post as yourself, you'll need a token with repo scope permissions.</p>
             <a 
               href="https://github.com/settings/tokens/new" 
               target="_blank" 

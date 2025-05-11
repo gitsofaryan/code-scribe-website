@@ -1,3 +1,4 @@
+
 import axios from 'axios';
 
 interface GithubIssuePayload {
@@ -49,11 +50,9 @@ export class GithubService {
         'Content-Type': 'application/json',
       };
       
-      // Add authentication token if available (for private repos)
+      // Add authentication token if available
       if (this.token) {
         headers['Authorization'] = `token ${this.token}`;
-      } else {
-        console.log('Creating public issue without authentication');
       }
       
       const response = await axios.post(
@@ -69,20 +68,21 @@ export class GithubService {
   }
 
   async updateIssue(issueNumber: number, payload: Partial<GithubIssuePayload>): Promise<any> {
-    if (!this.isAuthenticated()) {
-      throw new Error('Not authenticated with GitHub');
-    }
-
     try {
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      };
+      
+      if (this.token) {
+        headers['Authorization'] = `token ${this.token}`;
+      } else {
+        throw new Error('Authentication required for updating issues');
+      }
+
       const response = await axios.patch(
         `https://api.github.com/repos/${this.username}/${this.repo}/issues/${issueNumber}`,
         payload,
-        {
-          headers: {
-            'Authorization': `token ${this.token}`,
-            'Content-Type': 'application/json',
-          },
-        }
+        { headers }
       );
       return response.data;
     } catch (error) {
@@ -92,20 +92,21 @@ export class GithubService {
   }
 
   async createComment(issueNumber: number, comment: GithubComment): Promise<any> {
-    if (!this.isAuthenticated()) {
-      throw new Error('Not authenticated with GitHub');
-    }
-
     try {
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      };
+      
+      if (this.token) {
+        headers['Authorization'] = `token ${this.token}`;
+      } else {
+        throw new Error('Authentication required for commenting on issues');
+      }
+
       const response = await axios.post(
         `https://api.github.com/repos/${this.username}/${this.repo}/issues/${issueNumber}/comments`,
         comment,
-        {
-          headers: {
-            'Authorization': `token ${this.token}`,
-            'Content-Type': 'application/json',
-          },
-        }
+        { headers }
       );
       return response.data;
     } catch (error) {

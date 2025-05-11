@@ -5,7 +5,6 @@ import { Github, Edit } from 'lucide-react';
 import { toast } from "sonner";
 import CommentSection from '../components/CommentSection';
 import { githubService } from '../services/GithubService';
-import GithubSettings from '../components/GithubSettings';
 
 interface Note {
   id: string;
@@ -51,9 +50,10 @@ const Notes: React.FC = () => {
             source: 'local' as const
           }));
           
-        // Get GitHub notes
+        // Get GitHub notes - no authentication required
         let githubNotes: Note[] = [];
-        if (githubService.isAuthenticated()) {
+        // Fetch GitHub issues regardless of authentication status
+        try {
           const githubIssues = await githubService.getIssues(['note']);
           githubNotes = githubIssues.map((issue: any) => ({
             id: `github-${issue.number}`,
@@ -66,6 +66,9 @@ const Notes: React.FC = () => {
             source: 'github' as const,
             githubIssueNumber: issue.number
           }));
+        } catch (error) {
+          console.error('Error fetching GitHub issues:', error);
+          // Continue with local notes if GitHub fetch fails
         }
         
         // Combine and sort all notes by date (newest first)
@@ -92,7 +95,6 @@ const Notes: React.FC = () => {
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-4xl font-bold">Notes</h1>
             <div className="flex gap-2">
-              <GithubSettings />
               <Link 
                 to="/write" 
                 className="px-4 py-2 bg-vscode-accent hover:bg-opacity-90 rounded-md transition-colors flex items-center"
@@ -104,6 +106,7 @@ const Notes: React.FC = () => {
           </div>
           <p className="text-lg mb-10">
             Personal thoughts, reflections, and updates about tech, life, and everything in between.
+            All notes are saved as public GitHub issues.
           </p>
 
           {isLoading ? (
