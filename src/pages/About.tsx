@@ -206,7 +206,7 @@ const About: React.FC = () => {
             
             <div className="space-y-6">
               <Card className="bg-[#1F1F1F] border-vscode-border hover:border-vscode-accent transition-colors duration-300">
-                <CardContent className="pt-6">
+                <CardContent>
                   <h3 className="text-xl font-semibold text-white mb-4">Software</h3>
                   <p className="mb-4 text-vscode-text">This website is hosted on Vercel.</p>
                   <ul className="list-disc list-inside text-vscode-text space-y-2 pl-4">
@@ -220,7 +220,7 @@ const About: React.FC = () => {
               </Card>
               
               <Card className="bg-[#1F1F1F] border-vscode-border hover:border-vscode-accent transition-colors duration-300">
-                <CardContent className="pt-6">
+                <CardContent >
                   <h3 className="text-xl font-semibold text-white mb-4">Hardware</h3>
                   <div className="space-y-4">
                   
@@ -285,8 +285,8 @@ const About: React.FC = () => {
             
             <div className="space-y-6">
               <Card className="bg-[#1F1F1F] border-vscode-border hover:border-vscode-accent transition-colors duration-300">
-                <CardContent className="pt-6">
-                  <div className="flex justify-between items-start mb-2">
+                <CardContent >
+                  <div className="flex justify-between items-center mb-2">
                     <h3 className="text-xl font-semibold text-white">CircuitVerse</h3>
                     <span className="text-sm text-vscode-comment">Present</span>
                   </div>
@@ -309,8 +309,8 @@ const About: React.FC = () => {
               </Card>
               
               <Card className="bg-[#1F1F1F] border-vscode-border hover:border-vscode-accent transition-colors duration-300">
-                <CardContent className="pt-6">
-                  <div className="flex justify-between items-start mb-2">
+                <CardContent >
+                  <div className="flex justify-between items-center mb-2">
                     <h3 className="text-xl font-semibold text-white">Palisadoes</h3>
                     <span className="text-sm text-vscode-comment">Present</span>
                   </div>
