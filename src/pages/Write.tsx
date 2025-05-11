@@ -1,9 +1,12 @@
 
-import React, { useState } from 'react';
-import { Edit, Pencil, FileText, Eye } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Edit, Pencil, FileText, Eye, Github, Save } from 'lucide-react';
 import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
+import { githubService } from '../services/GithubService';
+import GithubSettings from '../components/GithubSettings';
+import { useNavigate } from 'react-router-dom';
 
 const Write: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -12,8 +15,15 @@ const Write: React.FC = () => {
   const [tags, setTags] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [viewMode, setViewMode] = useState<'edit' | 'preview'>('edit');
+  const [publishToGithub, setPublishToGithub] = useState(false);
+  const navigate = useNavigate();
   
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    // Enable GitHub publishing by default if authenticated
+    setPublishToGithub(githubService.isAuthenticated());
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !content) {
       toast.error("Please provide both title and content");
@@ -22,30 +32,58 @@ const Write: React.FC = () => {
     
     setIsSaving(true);
     
-    // In a real application, this would save to a backend
-    setTimeout(() => {
-      console.log({
+    try {
+      const contentData = {
         type: isNoteType ? 'note' : 'blog',
         title,
         content,
         tags: tags.split(',').map(tag => tag.trim()),
         date: new Date().toISOString(),
-      });
+      };
+      
+      // Save locally
+      const existingContent = JSON.parse(localStorage.getItem('content') || '[]');
+      const newId = `${Date.now()}`;
+      const newContent = [...existingContent, { id: newId, ...contentData }];
+      localStorage.setItem('content', JSON.stringify(newContent));
+      
+      // Publish to GitHub if option is selected
+      if (publishToGithub) {
+        if (!githubService.isAuthenticated()) {
+          toast.error("Please connect to GitHub first");
+          setIsSaving(false);
+          return;
+        }
+        
+        try {
+          await githubService.createIssue({
+            title,
+            body: content,
+            labels: [isNoteType ? 'note' : 'blog', ...tags.split(',').map(tag => tag.trim())],
+          });
+          toast.success("Successfully published to GitHub");
+        } catch (error) {
+          console.error("GitHub publish error:", error);
+          toast.error("Failed to publish to GitHub");
+        }
+      }
       
       setIsSaving(false);
       toast.success(`Your ${isNoteType ? 'note' : 'blog post'} has been saved`);
       
-      // Reset form
-      setTitle('');
-      setContent('');
-      setTags('');
-    }, 1500);
+      // Redirect to the appropriate page
+      navigate(isNoteType ? '/notes' : '/blog');
+      
+    } catch (error) {
+      console.error("Save error:", error);
+      setIsSaving(false);
+      toast.error("Failed to save content");
+    }
   };
 
   // Simple markdown preview renderer
   const renderMarkdown = (markdown: string) => {
     // This is a very basic markdown renderer for preview purposes
-    // In a real app you would use a library like marked or react-markdown
     let html = markdown
       // Headers
       .replace(/^### (.*$)/gim, '<h3>$1</h3>')
@@ -71,10 +109,13 @@ const Write: React.FC = () => {
   
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="text-4xl font-bold mb-6 flex items-center">
-        <Edit className="mr-3" size={32} />
-        Write
-      </h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-4xl font-bold flex items-center">
+          <Edit className="mr-3" size={32} />
+          Write
+        </h1>
+        <GithubSettings />
+      </div>
       
       <p className="text-lg mb-8">
         Create a new note or blog post to share your thoughts and ideas.
@@ -188,12 +229,29 @@ const Write: React.FC = () => {
           </Tabs>
         </div>
         
-        <div className="flex justify-end">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center">
+            {githubService.isAuthenticated() && (
+              <label className="flex items-center space-x-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={publishToGithub}
+                  onChange={(e) => setPublishToGithub(e.target.checked)}
+                  className="rounded border-vscode-border"
+                />
+                <span className="flex items-center">
+                  <Github size={16} className="mr-1" />
+                  Publish as GitHub Issue
+                </span>
+              </label>
+            )}
+          </div>
           <button
             type="submit"
             disabled={isSaving}
-            className="px-6 py-3 bg-vscode-accent hover:bg-opacity-90 rounded-md transition-colors disabled:opacity-70"
+            className="px-6 py-3 bg-vscode-accent hover:bg-opacity-90 rounded-md transition-colors disabled:opacity-70 flex items-center"
           >
+            <Save size={16} className="mr-2" />
             {isSaving ? 'Saving...' : `Save ${isNoteType ? 'Note' : 'Blog Post'}`}
           </button>
         </div>
