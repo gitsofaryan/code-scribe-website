@@ -1,3 +1,4 @@
+
 import React, { memo, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Github, GitPullRequest } from 'lucide-react';
@@ -13,8 +14,6 @@ const fallbackProfileData = {
   publicRepos: 45,
   name: "Arien"
 };
-
-
 
 // Mock project data (replace with API calls in production)
 const featuredProjects = [
@@ -77,8 +76,31 @@ const notes = [
   }
 ];
 
+// Define proper interface for profile data
+interface ProfileData {
+  username: string;
+  avatar?: string;
+  avatar_url?: string;
+  bio: string;
+  followers: number;
+  following: number;
+  publicRepos?: number;
+  public_repos?: number;
+  name: string;
+  location?: string;
+  company?: string;
+  blog?: string | null;
+  twitter_username?: string | null;
+  login?: string;
+}
+
+// Define interface for ProfileCard props
+interface ProfileCardProps {
+  profile: ProfileData;
+}
+
 // Memoized ProfileCard component
-const ProfileCard = memo(({ profile }) => (
+const ProfileCard = memo(({ profile }: ProfileCardProps) => (
   <Card className="bg-vscode-sidebar border border-vscode-border mb-8">
     <CardHeader className="p-4 flex flex-row items-center gap-4">
       <img
@@ -96,7 +118,7 @@ const ProfileCard = memo(({ profile }) => (
       <div className="flex gap-4 text-sm text-vscode-text">
         <span>{profile.followers} Followers</span>
         <span>{profile.following} Following</span>
-        <span>{profile.public_repos} Public Repos</span>
+        <span>{profile.public_repos || profile.publicRepos} Public Repos</span>
       </div>
       <img
         src={`https://github-readme-stats.vercel.app/api?username=${profile.login || profile.username}&show_icons=true&theme=transparent&text_color=d4d4d4&title_color=569cd6&icon_color=569cd6`}
@@ -108,8 +130,23 @@ const ProfileCard = memo(({ profile }) => (
   </Card>
 ));
 
+// Define interface for ProjectData
+interface ProjectData {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  link: string;
+  tags: string[];
+}
+
+// Define interface for ProjectCard props
+interface ProjectCardProps {
+  project: ProjectData;
+}
+
 // Memoized ProjectCard component
-const ProjectCard = memo(({ project }) => (
+const ProjectCard = memo(({ project }: ProjectCardProps) => (
   <Link to={project.link} className="block">
     <Card className="h-full bg-vscode-sidebar border border-vscode-border hover:border-vscode-accent transition-all duration-300 hover:shadow-md">
       <CardHeader className="p-4">
@@ -135,7 +172,7 @@ const formatDate = (dateString) => {
 };
 
 const Home = () => {
-  const [profileData, setProfileData] = useState(fallbackProfileData);
+  const [profileData, setProfileData] = useState<ProfileData>(fallbackProfileData);
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -154,7 +191,8 @@ const Home = () => {
           location: data.location || 'Not specified',
           company: data.company || 'Not specified',
           blog: data.blog || null,
-          twitter_username: data.twitter_username || null
+          twitter_username: data.twitter_username || null,
+          login: data.login
         });
       } catch (error) {
         console.error('Error fetching GitHub profile:', error);
