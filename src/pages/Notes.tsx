@@ -1,10 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Github } from 'lucide-react';
+import { Github, Edit } from 'lucide-react';
 import { toast } from "sonner";
 import CommentSection from '../components/CommentSection';
 import { githubService } from '../services/GithubService';
+import GithubSettings from '../components/GithubSettings';
 
 interface Note {
   id: string;
@@ -88,7 +89,19 @@ const Notes: React.FC = () => {
     <div className="max-w-4xl mx-auto">
       {!selectedNote ? (
         <>
-          <h1 className="text-4xl font-bold mb-6">Notes</h1>
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-4xl font-bold">Notes</h1>
+            <div className="flex gap-2">
+              <GithubSettings />
+              <Link 
+                to="/write" 
+                className="px-4 py-2 bg-vscode-accent hover:bg-opacity-90 rounded-md transition-colors flex items-center"
+              >
+                <Edit size={16} className="mr-2" />
+                New Note
+              </Link>
+            </div>
+          </div>
           <p className="text-lg mb-10">
             Personal thoughts, reflections, and updates about tech, life, and everything in between.
           </p>

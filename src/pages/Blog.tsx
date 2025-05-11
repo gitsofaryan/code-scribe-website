@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Github } from 'lucide-react';
+import { Search, Github, Edit } from 'lucide-react';
 import { toast } from "sonner";
 import BlogPost from '../components/BlogPost';
 import CommentSection from '../components/CommentSection';
@@ -13,7 +12,7 @@ interface BlogPostItem {
   title: string;
   date: string;
   isNew?: boolean;
-  content?: string;
+  content?: string | React.ReactNode;
   source?: 'local' | 'github';
   githubIssueNumber?: number;
 }
@@ -137,7 +136,7 @@ type Readonly<T> = {
           .map((item: any) => ({
             id: item.id,
             title: item.title,
-            date: new Date(item.date).toLocaleDateString('en-US', { month: 'long D' }),
+            date: new Date(item.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }),
             content: item.content,
             isNew: new Date(item.date) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
             source: 'local' as const
@@ -150,7 +149,7 @@ type Readonly<T> = {
           githubBlogPosts = githubIssues.map((issue: any) => ({
             id: `github-${issue.number}`,
             title: issue.title,
-            date: new Date(issue.created_at).toLocaleDateString('en-US', { month: 'long D' }),
+            date: new Date(issue.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }),
             content: issue.body,
             isNew: new Date(issue.created_at) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
             source: 'github' as const,
@@ -210,7 +209,7 @@ type Readonly<T> = {
           setSelectedPost({
             id: selectedPostId,
             title: issue.title,
-            date: new Date(issue.created_at).toLocaleDateString('en-US', { month: 'long D, YYYY' }),
+            date: new Date(issue.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
             content: issue.body,
             source: 'github',
             githubIssueNumber: issue.number
@@ -233,7 +232,7 @@ type Readonly<T> = {
         setSelectedPost({
           id: post.id,
           title: post.title,
-          date: new Date(post.date).toLocaleDateString('en-US', { month: 'long D, YYYY' }),
+          date: new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
           content: post.content,
           source: 'local'
         });

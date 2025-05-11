@@ -7,6 +7,10 @@ interface GithubIssuePayload {
   labels: string[];
 }
 
+interface GithubComment {
+  body: string;
+}
+
 export class GithubService {
   private token: string | null;
   private username: string;
@@ -32,6 +36,14 @@ export class GithubService {
     localStorage.setItem('github_repo', repo);
   }
 
+  getCredentials() {
+    return {
+      username: this.username,
+      repo: this.repo,
+      isAuthenticated: this.isAuthenticated()
+    };
+  }
+
   async createIssue(payload: GithubIssuePayload): Promise<any> {
     if (!this.isAuthenticated()) {
       throw new Error('Not authenticated with GitHub');
@@ -52,6 +64,72 @@ export class GithubService {
     } catch (error) {
       console.error('GitHub API Error:', error);
       throw error;
+    }
+  }
+
+  async updateIssue(issueNumber: number, payload: Partial<GithubIssuePayload>): Promise<any> {
+    if (!this.isAuthenticated()) {
+      throw new Error('Not authenticated with GitHub');
+    }
+
+    try {
+      const response = await axios.patch(
+        `https://api.github.com/repos/${this.username}/${this.repo}/issues/${issueNumber}`,
+        payload,
+        {
+          headers: {
+            'Authorization': `token ${this.token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('GitHub API Error:', error);
+      throw error;
+    }
+  }
+
+  async createComment(issueNumber: number, comment: GithubComment): Promise<any> {
+    if (!this.isAuthenticated()) {
+      throw new Error('Not authenticated with GitHub');
+    }
+
+    try {
+      const response = await axios.post(
+        `https://api.github.com/repos/${this.username}/${this.repo}/issues/${issueNumber}/comments`,
+        comment,
+        {
+          headers: {
+            'Authorization': `token ${this.token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('GitHub API Error:', error);
+      throw error;
+    }
+  }
+
+  async getComments(issueNumber: number): Promise<any[]> {
+    try {
+      const url = `https://api.github.com/repos/${this.username}/${this.repo}/issues/${issueNumber}/comments`;
+      
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      };
+      
+      if (this.token) {
+        headers['Authorization'] = `token ${this.token}`;
+      }
+      
+      const response = await axios.get(url, { headers });
+      return response.data;
+    } catch (error) {
+      console.error('GitHub API Error:', error);
+      return [];
     }
   }
 
@@ -96,6 +174,46 @@ export class GithubService {
     } catch (error) {
       console.error('GitHub API Error:', error);
       throw error;
+    }
+  }
+
+  async getRepoDetails(): Promise<any> {
+    try {
+      const url = `https://api.github.com/repos/${this.username}/${this.repo}`;
+      
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      };
+      
+      if (this.token) {
+        headers['Authorization'] = `token ${this.token}`;
+      }
+      
+      const response = await axios.get(url, { headers });
+      return response.data;
+    } catch (error) {
+      console.error('GitHub API Error:', error);
+      return null;
+    }
+  }
+
+  async getUserDetails(): Promise<any> {
+    try {
+      const url = `https://api.github.com/users/${this.username}`;
+      
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      };
+      
+      if (this.token) {
+        headers['Authorization'] = `token ${this.token}`;
+      }
+      
+      const response = await axios.get(url, { headers });
+      return response.data;
+    } catch (error) {
+      console.error('GitHub API Error:', error);
+      return null;
     }
   }
 }
