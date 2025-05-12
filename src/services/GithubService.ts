@@ -44,16 +44,22 @@ export class GithubService {
     };
   }
 
+  private getHeaders(): Record<string, string> {
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+    
+    // Add authentication token if available
+    if (this.token) {
+      headers['Authorization'] = `token ${this.token}`;
+    }
+    
+    return headers;
+  }
+
   async createIssue(payload: GithubIssuePayload): Promise<any> {
     try {
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-      };
-      
-      // Add authentication token if available
-      if (this.token) {
-        headers['Authorization'] = `token ${this.token}`;
-      }
+      const headers = this.getHeaders();
       
       const response = await axios.post(
         `https://api.github.com/repos/${this.username}/${this.repo}/issues`,
@@ -69,16 +75,12 @@ export class GithubService {
 
   async updateIssue(issueNumber: number, payload: Partial<GithubIssuePayload>): Promise<any> {
     try {
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-      };
-      
-      if (this.token) {
-        headers['Authorization'] = `token ${this.token}`;
-      } else {
+      if (!this.token) {
         throw new Error('Authentication required for updating issues');
       }
 
+      const headers = this.getHeaders();
+      
       const response = await axios.patch(
         `https://api.github.com/repos/${this.username}/${this.repo}/issues/${issueNumber}`,
         payload,
@@ -93,16 +95,12 @@ export class GithubService {
 
   async createComment(issueNumber: number, comment: GithubComment): Promise<any> {
     try {
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-      };
-      
-      if (this.token) {
-        headers['Authorization'] = `token ${this.token}`;
-      } else {
+      if (!this.token) {
         throw new Error('Authentication required for commenting on issues');
       }
 
+      const headers = this.getHeaders();
+      
       const response = await axios.post(
         `https://api.github.com/repos/${this.username}/${this.repo}/issues/${issueNumber}/comments`,
         comment,
@@ -118,14 +116,7 @@ export class GithubService {
   async getComments(issueNumber: number): Promise<any[]> {
     try {
       const url = `https://api.github.com/repos/${this.username}/${this.repo}/issues/${issueNumber}/comments`;
-      
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-      };
-      
-      if (this.token) {
-        headers['Authorization'] = `token ${this.token}`;
-      }
+      const headers = this.getHeaders();
       
       const response = await axios.get(url, { headers });
       return response.data;
@@ -143,13 +134,7 @@ export class GithubService {
         url += `&labels=${labels.join(',')}`;
       }
       
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-      };
-      
-      if (this.token) {
-        headers['Authorization'] = `token ${this.token}`;
-      }
+      const headers = this.getHeaders();
       
       const response = await axios.get(url, { headers });
       return response.data;
@@ -162,14 +147,7 @@ export class GithubService {
   async getIssue(issueNumber: number): Promise<any> {
     try {
       const url = `https://api.github.com/repos/${this.username}/${this.repo}/issues/${issueNumber}`;
-      
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-      };
-      
-      if (this.token) {
-        headers['Authorization'] = `token ${this.token}`;
-      }
+      const headers = this.getHeaders();
       
       const response = await axios.get(url, { headers });
       return response.data;
@@ -182,14 +160,7 @@ export class GithubService {
   async getRepoDetails(): Promise<any> {
     try {
       const url = `https://api.github.com/repos/${this.username}/${this.repo}`;
-      
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-      };
-      
-      if (this.token) {
-        headers['Authorization'] = `token ${this.token}`;
-      }
+      const headers = this.getHeaders();
       
       const response = await axios.get(url, { headers });
       return response.data;
@@ -202,14 +173,7 @@ export class GithubService {
   async getUserDetails(): Promise<any> {
     try {
       const url = `https://api.github.com/users/${this.username}`;
-      
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-      };
-      
-      if (this.token) {
-        headers['Authorization'] = `token ${this.token}`;
-      }
+      const headers = this.getHeaders();
       
       const response = await axios.get(url, { headers });
       return response.data;

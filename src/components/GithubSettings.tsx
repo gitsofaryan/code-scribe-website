@@ -76,6 +76,8 @@ const GithubSettings: React.FC = () => {
         // Credentials already set during validation
         setOpen(false);
         toast.success('GitHub settings saved successfully');
+        // Reload the page to reflect authentication status
+        window.location.reload();
       } catch (error) {
         toast.error('Failed to save settings');
         console.error(error);
@@ -86,7 +88,7 @@ const GithubSettings: React.FC = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="flex items-center gap-2">
+        <Button id="github-settings-trigger" variant="outline" className="flex items-center gap-2">
           <Settings size={16} />
           GitHub Settings
         </Button>
@@ -95,7 +97,7 @@ const GithubSettings: React.FC = () => {
         <DialogHeader>
           <DialogTitle>GitHub Settings</DialogTitle>
           <DialogDescription>
-            Configure which GitHub repository to use for publishing notes and blog posts as issues. Authentication is optional for public repositories.
+            Configure which GitHub repository to use for publishing notes and blog posts as issues. To comment and create posts as yourself, add your personal access token.
           </DialogDescription>
         </DialogHeader>
         
@@ -149,14 +151,14 @@ const GithubSettings: React.FC = () => {
           <div className="grid grid-cols-4 items-center gap-4">
             <label htmlFor="token" className="text-right text-sm font-medium">
               Token
-              <span className="text-xs text-vscode-comment block">(Optional)</span>
+              <span className="text-xs text-red-400 block">Required for comments</span>
             </label>
             <Input
               id="token"
               type="password"
               value={token}
               onChange={(e) => setToken(e.target.value)}
-              placeholder="GitHub Personal Access Token (optional)"
+              placeholder="GitHub Personal Access Token"
               className="col-span-3"
             />
           </div>
@@ -176,7 +178,7 @@ const GithubSettings: React.FC = () => {
           )}
           
           <div className="text-sm text-vscode-comment">
-            <p>Note: For public repositories, a token is not required. For private repositories or to post as yourself, you'll need a token with repo scope permissions.</p>
+            <p>Create a token with <strong>repo</strong> scope permissions to post comments and create issues as yourself.</p>
             <a 
               href="https://github.com/settings/tokens/new" 
               target="_blank" 

@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { githubService } from '../services/GithubService';
 import { useNavigate } from 'react-router-dom';
+import GithubSettings from '../components/GithubSettings';
 
 const Write: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -31,7 +32,7 @@ const Write: React.FC = () => {
         type: isNoteType ? 'note' : 'blog',
         title,
         content,
-        tags: tags.split(',').map(tag => tag.trim()),
+        tags: tags.split(',').map(tag => tag.trim()).filter(tag => tag),
         date: new Date().toISOString(),
       };
       
@@ -41,15 +42,32 @@ const Write: React.FC = () => {
       const newContent = [...existingContent, { id: newId, ...contentData }];
       localStorage.setItem('content', JSON.stringify(newContent));
       
+      let githubIssueNumber: number | null = null;
+      
       // Publish to GitHub if option is selected
       if (publishToGithub) {
         try {
-          await githubService.createIssue({
+          // Check if GitHub settings are configured
+          const credentials = githubService.getCredentials();
+          if (!credentials.username || !credentials.repo) {
+            toast.error("GitHub repository is not configured. Please set up GitHub settings first.");
+            
+            // Prompt user to configure GitHub
+            document.getElementById('github-settings-trigger')?.click();
+            setIsSaving(false);
+            return;
+          }
+          
+          const response = await githubService.createIssue({
             title,
             body: content,
-            labels: [isNoteType ? 'note' : 'blog', ...tags.split(',').map(tag => tag.trim())],
+            labels: [isNoteType ? 'note' : 'blog', ...contentData.tags],
           });
-          toast.success("Successfully published to GitHub");
+          
+          if (response && response.number) {
+            githubIssueNumber = response.number;
+            toast.success("Successfully published to GitHub");
+          }
         } catch (error) {
           console.error("GitHub publish error:", error);
           toast.error("Failed to publish to GitHub");
@@ -102,6 +120,7 @@ const Write: React.FC = () => {
           <Edit className="mr-3" size={32} />
           Write
         </h1>
+        <GithubSettings />
       </div>
       
       <p className="text-lg mb-8">

@@ -5,6 +5,7 @@ import { Github, Edit } from 'lucide-react';
 import { toast } from "sonner";
 import CommentSection from '../components/CommentSection';
 import { githubService } from '../services/GithubService';
+import GithubSettings from '../components/GithubSettings';
 
 interface Note {
   id: string;
@@ -50,9 +51,8 @@ const Notes: React.FC = () => {
             source: 'local' as const
           }));
           
-        // Get GitHub notes - no authentication required
+        // Get GitHub notes - no authentication required for public repositories
         let githubNotes: Note[] = [];
-        // Fetch GitHub issues regardless of authentication status
         try {
           const githubIssues = await githubService.getIssues(['note']);
           githubNotes = githubIssues.map((issue: any) => ({
@@ -68,7 +68,7 @@ const Notes: React.FC = () => {
           }));
         } catch (error) {
           console.error('Error fetching GitHub issues:', error);
-          // Continue with local notes if GitHub fetch fails
+          toast.error('Failed to fetch GitHub notes');
         }
         
         // Combine and sort all notes by date (newest first)
@@ -88,6 +88,21 @@ const Notes: React.FC = () => {
     fetchNotes();
   }, []);
 
+  useEffect(() => {
+    // When a GitHub note is selected, fetch its comments
+    if (selectedNote?.source === 'github' && selectedNote?.githubIssueNumber) {
+      const fetchIssueDetails = async () => {
+        try {
+          const issue = await githubService.getIssue(selectedNote.githubIssueNumber!);
+          setSelectedNote(prev => prev ? { ...prev, content: issue.body } : null);
+        } catch (error) {
+          console.error('Error fetching issue details:', error);
+        }
+      };
+      fetchIssueDetails();
+    }
+  }, [selectedNote?.id]);
+
   return (
     <div className="max-w-4xl mx-auto">
       {!selectedNote ? (
@@ -95,6 +110,7 @@ const Notes: React.FC = () => {
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-4xl font-bold">Notes</h1>
             <div className="flex gap-2">
+              <GithubSettings />
               <Link 
                 to="/write" 
                 className="px-4 py-2 bg-vscode-accent hover:bg-opacity-90 rounded-md transition-colors flex items-center"
@@ -188,6 +204,7 @@ const Notes: React.FC = () => {
             comments={selectedNote.comments} 
             postId={selectedNote.id}
             postType="note"
+            issueNumber={selectedNote.githubIssueNumber}
           />
         </>
       )}
