@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 
 interface GithubIssuePayload {
@@ -20,7 +19,7 @@ export class GithubService {
   constructor() {
     this.token = localStorage.getItem('github_token');
     this.username = localStorage.getItem('github_username') || 'gitsofaryan';
-    this.repo = localStorage.getItem('github_repo') || 'blog-content';
+    this.repo = localStorage.getItem('github_repo') || 'code-scribe-website';
     this.userDetails = null;
   }
 

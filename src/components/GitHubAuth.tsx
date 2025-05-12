@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Github } from 'lucide-react';
@@ -6,6 +5,8 @@ import { toast } from "sonner";
 import { githubService } from '../services/GithubService';
 
 // GitHub OAuth configuration
+// For a real app, you would use your own GitHub OAuth App client ID
+// This is a placeholder - user needs to replace with actual client ID
 const GITHUB_CLIENT_ID = "YOUR_GITHUB_CLIENT_ID"; // Replace this with your GitHub OAuth App client ID
 const REDIRECT_URI = window.location.origin + "/github-callback";
 const GITHUB_AUTH_URL = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=repo user`;
@@ -63,7 +64,7 @@ const GitHubAuth: React.FC<GitHubAuthProps> = ({
     setTimeout(() => {
       // For development purposes only - in real app, this would come from your backend
       const mockToken = `gh_mock_token_${code.substring(0, 6)}`;
-      githubService.setCredentials(mockToken, 'demo-user', 'blog-content');
+      githubService.setCredentials(mockToken, 'gitsofaryan', 'code-scribe-website');
       setIsAuthenticated(true);
       toast.success("GitHub authentication successful!");
       

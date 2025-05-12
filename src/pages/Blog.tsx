@@ -1,6 +1,7 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Edit } from 'lucide-react';
+import { Search, Edit, Github } from 'lucide-react';
 import { toast } from "sonner";
 import BlogPost from '../components/BlogPost';
 import CommentSection from '../components/CommentSection';
