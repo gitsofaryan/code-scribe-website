@@ -1,12 +1,11 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Github, Edit } from 'lucide-react';
+import { Search, Edit } from 'lucide-react';
 import { toast } from "sonner";
 import BlogPost from '../components/BlogPost';
 import CommentSection from '../components/CommentSection';
 import { githubService } from '../services/GithubService';
-import GithubSettings from '../components/GithubSettings';
+import GitHubAuth from '../components/GitHubAuth';
 
 // Define the blog post type
 interface BlogPostItem {
@@ -185,7 +184,7 @@ const BlogPage: React.FC = () => {
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-4xl font-bold">Blog</h1>
             <div className="flex gap-2">
-              <GithubSettings />
+              <GitHubAuth />
               <Link 
                 to="/write" 
                 className="px-6 py-3 bg-vscode-accent hover:bg-opacity-90 rounded-md transition-colors flex items-center"

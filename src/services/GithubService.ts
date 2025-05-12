@@ -15,11 +15,13 @@ export class GithubService {
   private token: string | null;
   private username: string;
   private repo: string;
+  private userDetails: any | null;
 
   constructor() {
     this.token = localStorage.getItem('github_token');
     this.username = localStorage.getItem('github_username') || 'gitsofaryan';
     this.repo = localStorage.getItem('github_repo') || 'blog-content';
+    this.userDetails = null;
   }
 
   isAuthenticated(): boolean {
@@ -34,6 +36,12 @@ export class GithubService {
     localStorage.setItem('github_token', token);
     localStorage.setItem('github_username', username);
     localStorage.setItem('github_repo', repo);
+  }
+  
+  clearCredentials(): void {
+    this.token = null;
+    localStorage.removeItem('github_token');
+    this.userDetails = null;
   }
 
   getCredentials() {
@@ -172,10 +180,19 @@ export class GithubService {
 
   async getUserDetails(): Promise<any> {
     try {
-      const url = `https://api.github.com/users/${this.username}`;
+      if (!this.token) {
+        return null;
+      }
+      
+      if (this.userDetails) {
+        return this.userDetails;
+      }
+      
+      const url = 'https://api.github.com/user';
       const headers = this.getHeaders();
       
       const response = await axios.get(url, { headers });
+      this.userDetails = response.data;
       return response.data;
     } catch (error) {
       console.error('GitHub API Error:', error);

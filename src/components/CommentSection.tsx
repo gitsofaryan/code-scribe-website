@@ -1,8 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
-import { Github, MessageSquare } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
 import { githubService } from '../services/GithubService';
 import { toast } from "sonner";
+import GitHubAuth from './GitHubAuth';
 
 interface Comment {
   id: string;
@@ -56,10 +57,13 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments: initialCommen
     }
   };
 
-  const handleGithubLogin = () => {
-    // Open the GitHub settings to set credentials
-    // This is a simple approach - in a real app, you'd use OAuth
-    document.getElementById('github-settings-trigger')?.click();
+  const handleAuthSuccess = () => {
+    setIsAuthenticated(true);
+    
+    // Refresh comments after successful authentication
+    if (issueNumber) {
+      fetchComments(issueNumber);
+    }
   };
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
@@ -112,13 +116,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments: initialCommen
       {!isAuthenticated ? (
         <div className="bg-vscode-highlight bg-opacity-20 rounded-lg p-6 mb-8 text-center">
           <p className="mb-4">Sign in with GitHub to join the discussion</p>
-          <button 
-            onClick={handleGithubLogin}
-            className="inline-flex items-center px-4 py-2 bg-vscode-accent hover:bg-opacity-90 rounded-md transition-colors"
-          >
-            <Github size={18} className="mr-2" />
-            <span>Sign in with GitHub</span>
-          </button>
+          <GitHubAuth onSuccess={handleAuthSuccess} buttonText="Sign in with GitHub" />
         </div>
       ) : (
         <form onSubmit={handleCommentSubmit} className="mb-8">
